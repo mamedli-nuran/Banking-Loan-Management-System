@@ -1,0 +1,63 @@
+package com.example.mscustomer.customer.service;
+
+import com.example.mscustomer.customer.dto.request.CustomerRequest;
+import com.example.mscustomer.customer.dto.response.CustomerResponse;
+import com.example.mscustomer.customer.exception.CustomerNotFoundException;
+import com.example.mscustomer.customer.model.Customer;
+import com.example.mscustomer.customer.repository.CustomerRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+public class CustomerServiceImpl implements CustomerService {
+
+    private final CustomerRepository customerRepository;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    @Override
+    public CustomerResponse createCustomer(CustomerRequest request) {
+        Customer customer = new Customer();
+        applyRequest(customer, request);
+        Customer savedCustomer = customerRepository.save(customer);
+        return toResponse(savedCustomer);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CustomerResponse getCustomer(Long customerId) {
+        return customerRepository.findById(customerId)
+                .map(this::toResponse)
+                .orElseThrow(() -> new CustomerNotFoundException(customerId));
+    }
+
+    @Override
+    public CustomerResponse updateCustomer(Long customerId, CustomerRequest request) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException(customerId));
+        applyRequest(customer, request);
+        Customer savedCustomer = customerRepository.save(customer);
+        return toResponse(savedCustomer);
+    }
+
+    private void applyRequest(Customer customer, CustomerRequest request) {
+        customer.setFirstName(request.firstName().trim());
+        customer.setLastName(request.lastName().trim());
+        customer.setEmail(request.email().trim().toLowerCase());
+        customer.setPhone(request.phone() == null || request.phone().isBlank() ? null : request.phone().trim());
+    }
+
+    private CustomerResponse toResponse(Customer customer) {
+        return new CustomerResponse(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getCreatedAt()
+        );
+    }
+}

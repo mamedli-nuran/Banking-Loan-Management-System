@@ -1,0 +1,29 @@
+services:
+  customer_db:
+    image: postgres:17
+    container_name: customer_db
+    environment:
+      POSTGRES_DB: customer_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - customer_data:/var/lib/postgresql/data
+
+  loan_db:
+    image: postgres:17
+    container_name: loan_db
+    environment:
+      POSTGRES_DB: loan_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - loan_data:/var/lib/postgresql/data
+
+
+volumes:
+  customer_data:
+  loan_data:
