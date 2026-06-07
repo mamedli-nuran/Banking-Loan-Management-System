@@ -1,8 +1,13 @@
 spring:
   application:
-    name: ms-customer
+    name: ms-loan
+
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/customer_db
+    url: jdbc:postgresql://localhost:5433/loan_db
     username: admin
     password: password
 
@@ -18,8 +23,5 @@ spring:
       hibernate:
         format_sql: true
 
-  kafka:
-    bootstrap-servers:
-      - localhost:9092
 server:
-  port: 8081
+  port: 8082

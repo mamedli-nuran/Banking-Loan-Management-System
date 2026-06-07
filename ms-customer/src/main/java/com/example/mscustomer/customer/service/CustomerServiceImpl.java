@@ -1,28 +1,34 @@
 package com.example.mscustomer.customer.service;
 
+import com.example.mscustomer.customer.dto.event.CustomerRegisterEvent;
 import com.example.mscustomer.customer.dto.request.CustomerRequest;
 import com.example.mscustomer.customer.dto.response.CustomerResponse;
 import com.example.mscustomer.customer.exception.CustomerNotFoundException;
 import com.example.mscustomer.customer.model.Customer;
 import com.example.mscustomer.customer.repository.CustomerRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.mscustomer.mapper.CustomerMapper.CUSTOMER_MAPPER;
+import static com.example.mscustomer.mapper.KafkaEventMapper.KAFKA_EVENT_MAPPER;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final KafkaTemplate<String, CustomerRegisterEvent> kafkaTemplate;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     @Override
     public CustomerResponse createCustomer(CustomerRequest request) {
         Customer customer = new Customer();
         applyRequest(customer, request);
         Customer savedCustomer = customerRepository.save(customer);
+        kafkaTemplate.send("customer-topic", KAFKA_EVENT_MAPPER.toEvent(savedCustomer));
         return toResponse(savedCustomer);
     }
 
