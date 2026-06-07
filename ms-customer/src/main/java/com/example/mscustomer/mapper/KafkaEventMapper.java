@@ -8,7 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface KafkaEventMapper {
-    KafkaEventMapper KAFKA_EVENT_MAPPER = Mappers.getMapper(KafkaEventMapper.class);
 
     CustomerRegisterEvent toEvent (Customer customer);
 }
