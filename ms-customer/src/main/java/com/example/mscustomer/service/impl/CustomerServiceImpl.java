@@ -1,3 +1,4 @@
+<<<<<<<< HEAD:ms-customer/src/main/java/com/example/mscustomer/service/impl/CustomerServiceImpl.java
 package com.example.mscustomer.service.impl;
 
 import com.example.mscustomer.dto.event.CustomerRegisterEvent;
@@ -7,6 +8,17 @@ import com.example.mscustomer.exception.CustomerNotFoundException;
 import com.example.mscustomer.model.Customer;
 import com.example.mscustomer.repository.CustomerRepository;
 import com.example.mscustomer.service.CustomerService;
+========
+package com.example.mscustomer.customer.service.impl;
+
+import com.example.mscustomer.customer.dto.event.CustomerRegisterEvent;
+import com.example.mscustomer.customer.dto.request.CustomerRequest;
+import com.example.mscustomer.customer.dto.response.CustomerResponse;
+import com.example.mscustomer.customer.exception.CustomerNotFoundException;
+import com.example.mscustomer.customer.model.Customer;
+import com.example.mscustomer.customer.repository.CustomerRepository;
+import com.example.mscustomer.customer.service.CustomerService;
+>>>>>>>> origin/master:ms-customer/src/main/java/com/example/mscustomer/customer/service/impl/CustomerServiceImpl.java
 import com.example.mscustomer.mapper.CustomerMapper;
 import com.example.mscustomer.mapper.KafkaEventMapper;
 import lombok.RequiredArgsConstructor;
