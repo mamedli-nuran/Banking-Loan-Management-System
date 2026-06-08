@@ -10,9 +10,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.mscustomer.customer.dto.request.CustomerRequest;
-import com.example.mscustomer.customer.dto.response.CustomerResponse;
-import com.example.mscustomer.customer.service.CustomerService;
+import com.example.mscustomer.controller.CustomerController;
+import com.example.mscustomer.dto.request.CustomerRequest;
+import com.example.mscustomer.dto.response.CustomerResponse;
+import com.example.mscustomer.service.CustomerService;
 import java.time.Instant;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

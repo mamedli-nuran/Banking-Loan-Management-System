@@ -1,11 +1,9 @@
 package com.example.mscustomer.mapper;
 
-import com.example.mscustomer.customer.dto.request.CustomerRequest;
-import com.example.mscustomer.customer.dto.response.CustomerResponse;
-import com.example.mscustomer.customer.model.Customer;
+import com.example.mscustomer.dto.request.CustomerRequest;
+import com.example.mscustomer.dto.response.CustomerResponse;
+import com.example.mscustomer.model.Customer;
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
 
 
 @Mapper(componentModel = "spring")
