@@ -1,7 +1,9 @@
-package com.example.mscustomer.customer.exception;
+package com.example.mscustomer.handler;
 
 import java.time.Instant;
 import java.util.Map;
+
+import com.example.mscustomer.customer.exception.CustomerNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class CustomerApiExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(CustomerNotFoundException exception) {
