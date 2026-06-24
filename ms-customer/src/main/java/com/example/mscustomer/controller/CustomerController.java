@@ -25,16 +25,21 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<CustomerResponse> addNewCustomer(@Valid @RequestBody CustomerRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(request));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(customerService.createCustomer(request));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> getCustomerDetails(@PathVariable Long id) {
-        return ResponseEntity.ok(customerService.getCustomer(id));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(customerService.getCustomer(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @Valid @RequestBody CustomerRequest request) {
-        return ResponseEntity.ok(customerService.updateCustomer(id, request));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(customerService.updateCustomer(id, request));
     }
 }

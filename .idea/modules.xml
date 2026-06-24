@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Banking Loan Management System.iml" filepath="$PROJECT_DIR$/.idea/Banking Loan Management System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-customer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-customer.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-loan.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-loan.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ms-loan.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ms-loan.test.iml" />
     </modules>
   </component>
 </project>

@@ -11,16 +11,17 @@ import com.example.mscustomer.service.CustomerService;
 import com.example.mscustomer.mapper.CustomerMapper;
 import com.example.mscustomer.mapper.KafkaEventMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-
     private final CustomerRepository customerRepository;
     private final KafkaTemplate<String, CustomerRegisterEvent> kafkaTemplate;
     private final KafkaEventMapper kafkaEventMapper;
@@ -29,8 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse createCustomer(CustomerRequest request) {
         Customer savedCustomer = customerRepository.save(customerMapper.toEntity(request));
-        CustomerRegisterEvent event =kafkaEventMapper.toEvent(savedCustomer);
-        System.out.println(event);
+
         kafkaTemplate.send("customer-topic", kafkaEventMapper.toEvent(savedCustomer));
         return customerMapper.toResponse(savedCustomer);
     }
@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional(readOnly = true)
     public CustomerResponse getCustomer(Long customerId) {
         return customerRepository.findById(customerId)
-                .map(this::toResponse)
+                .map(customerMapper::toResponse)
                 .orElseThrow(() -> new CustomerNotFoundException(customerId));
     }
 
@@ -52,18 +52,8 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setEmail(request.email());
         customer.setPhone(request.phone());
         customerRepository.save(customer);
+
+        kafkaTemplate.send("customer-topic", kafkaEventMapper.toEvent(customer));
         return customerMapper.toResponse(customer);
-    }
-
-
-    private CustomerResponse toResponse(Customer customer) {
-        return new CustomerResponse(
-                customer.getId(),
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getEmail(),
-                customer.getPhone(),
-                customer.getCreatedAt()
-        );
     }
 }
