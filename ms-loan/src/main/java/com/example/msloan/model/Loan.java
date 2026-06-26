@@ -70,4 +70,8 @@ public class Loan {
         this.status = LoanStatus.DISBURSED;
         this.disbursedAt = LocalDateTime.now();
     }
+
+    public void close() {
+        this.status = LoanStatus.CLOSED;
+    }
 }

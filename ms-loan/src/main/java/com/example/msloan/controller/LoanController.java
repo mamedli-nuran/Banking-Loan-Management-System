@@ -2,9 +2,13 @@ package com.example.msloan.controller;
 
 import com.example.msloan.dto.request.ApprovalRequest;
 import com.example.msloan.dto.request.LoanRequest;
+import com.example.msloan.dto.request.RepaymentRequest;
 import com.example.msloan.dto.response.LoanResponse;
+import com.example.msloan.dto.response.RepaymentResponse;
+import com.example.msloan.dto.response.RepaymentScheduleItemResponse;
 import com.example.msloan.service.LoanService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/loans")
+@RequestMapping({"/api/v1/loans", "/api/loans"})
 @RequiredArgsConstructor
 public class LoanController {
 
@@ -49,5 +53,19 @@ public class LoanController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(loanService.disburse(id));
+    }
+
+    @PostMapping("/{loanId}/repay")
+    public ResponseEntity<RepaymentResponse> repay(@PathVariable Long loanId, @Valid @RequestBody RepaymentRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(loanService.repay(loanId, request));
+    }
+
+    @GetMapping("/{loanId}/schedule")
+    public ResponseEntity<List<RepaymentScheduleItemResponse>> getSchedule(@PathVariable Long loanId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loanService.getSchedule(loanId));
     }
 }
