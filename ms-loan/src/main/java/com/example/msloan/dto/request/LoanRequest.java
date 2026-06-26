@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
-public record LoanApplicationRequest(
+public record LoanRequest(
         @NotNull Long customerId,
         @NotNull @Positive BigDecimal amount,
         @NotNull @PositiveOrZero BigDecimal interestRate,

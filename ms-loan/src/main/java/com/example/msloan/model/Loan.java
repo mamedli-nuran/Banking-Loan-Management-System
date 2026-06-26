@@ -13,14 +13,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Getter
-@Setter
+@Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -48,6 +46,7 @@ public class Loan {
     @Column(name = "status", nullable = false, length = 20)
     private LoanStatus status;
 
+    @CreationTimestamp
     @Column(name = "applied_at", nullable = false)
     private LocalDateTime appliedAt;
 
@@ -56,4 +55,19 @@ public class Loan {
 
     @Column(name = "disbursed_at")
     private LocalDateTime disbursedAt;
+
+
+    public void approve() {
+        this.status = LoanStatus.APPROVED;
+        this.approvedAt = LocalDateTime.now();
+    }
+
+    public void reject() {
+        this.status = LoanStatus.REJECTED;
+    }
+
+    public void disburse() {
+        this.status = LoanStatus.DISBURSED;
+        this.disbursedAt = LocalDateTime.now();
+    }
 }

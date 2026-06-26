@@ -1,7 +1,7 @@
 package com.example.msloan.controller;
 
 import com.example.msloan.dto.request.ApprovalRequest;
-import com.example.msloan.dto.request.LoanApplicationRequest;
+import com.example.msloan.dto.request.LoanRequest;
 import com.example.msloan.dto.response.LoanResponse;
 import com.example.msloan.service.LoanService;
 import jakarta.validation.Valid;
@@ -24,22 +24,30 @@ public class LoanController {
     private final LoanService loanService;
 
     @PostMapping
-    public ResponseEntity<LoanResponse> apply(@Valid @RequestBody LoanApplicationRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(loanService.apply(request));
+    public ResponseEntity<LoanResponse> apply(@Valid @RequestBody LoanRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(loanService.apply(request));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<LoanResponse> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(loanService.getById(id));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loanService.getById(id));
     }
 
     @PutMapping("/{id}/approve")
     public ResponseEntity<LoanResponse> approve(@PathVariable Long id, @Valid @RequestBody ApprovalRequest request) {
-        return ResponseEntity.ok(loanService.approve(id, request));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loanService.approve(id, request));
     }
 
     @PutMapping("/{id}/disburse")
     public ResponseEntity<LoanResponse> disburse(@PathVariable Long id) {
-        return ResponseEntity.ok(loanService.disburse(id));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loanService.disburse(id));
     }
 }
